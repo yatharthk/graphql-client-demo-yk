@@ -4,9 +4,13 @@ import com.example.graphql_client.graphql_client.responses.StudentResponse;
 import graphql.kickstart.spring.webclient.boot.GraphQLRequest;
 import graphql.kickstart.spring.webclient.boot.GraphQLResponse;
 import graphql.kickstart.spring.webclient.boot.GraphQLWebClient;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Objects;
+
+@Slf4j
 @Service
 public class ClientService {
 
@@ -15,7 +19,7 @@ public class ClientService {
 
     public StudentResponse getStudent(Integer id) {
         String queryString = "query " +
-                "   { student(id: "+id +")  {\n" +
+                "   { student(id:"+id+")  {\n" +
                 "    id\n" +
                 "    firstName\n" +
                 "    lastName\n" +
@@ -30,9 +34,18 @@ public class ClientService {
                 "    }\n" +
                 "  } }";
 
-        GraphQLRequest request = GraphQLRequest.builder().query(queryString).build();
-        GraphQLResponse graphQLResponse = graphQLWebClient.post(request).block();
-        StudentResponse studentRes = graphQLResponse.get("student", StudentResponse.class);
-        return studentRes;
+        try {
+            GraphQLRequest request = GraphQLRequest.builder().query(queryString).build();
+            GraphQLResponse graphQLResponse = graphQLWebClient.post(request).block();
+            if (null == graphQLResponse || !graphQLResponse.getErrors().isEmpty()) {
+                throw new RuntimeException("Exception Response from server::" + Objects.requireNonNull(graphQLResponse).getErrors());
+            }
+            return graphQLResponse.get("student", StudentResponse.class);
+
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            return null;
+        }
     }
+
 }
