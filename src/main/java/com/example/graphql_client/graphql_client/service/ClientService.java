@@ -14,8 +14,8 @@ public class ClientService {
     GraphQLWebClient graphQLWebClient;
 
     public StudentResponse getStudent(Integer id) {
-        String queryString = "query \r\n " +
-                "   { student(id: $id) {\n" +
+        String queryString = "query " +
+                "   { student(id: "+id +")  {\n" +
                 "    id\n" +
                 "    firstName\n" +
                 "    lastName\n" +
