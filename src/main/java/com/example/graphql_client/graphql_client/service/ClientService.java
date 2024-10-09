@@ -36,21 +36,22 @@ public class ClientService {
                 "    }\n" +
                 "  } }";
 
-        String queryString_withVariables = "query student($id: Int) " +
-                "   { student(id:$id)  {\n" +
-                "    id\n" +
-                "    firstName\n" +
-                "    lastName\n" +
-                "    email\n" +
-                "    street\n" +
-                "    city\n" +
-                "    fullName\n" +
-                "    learningSubjects(subjectNameFilter: [All]) {\n" +
-                "      id\n" +
-                "      subjectName\n" +
-                "      marksObtained\n" +
-                "    }\n" +
-                "  } }";
+        String queryString_withVariables = """
+                query student($id: Int) \
+                   { student(id:$id)  {
+                    id
+                    firstName
+                    lastName
+                    email
+                    street
+                    city
+                    fullName
+                    learningSubjects(subjectNameFilter: [All]) {
+                      id
+                      subjectName
+                      marksObtained
+                    }
+                  } }""";
         Map<String,Object> variables = new HashMap<>();
         variables.put("id",id);
 
@@ -71,19 +72,35 @@ public class ClientService {
     }
 
     public StudentResponse createStudent(StudentRequestInput studentRequestInput) {
-        String queryString = "mutation createStudent($createRequest:StudentRequestInput,$subjectName:[SubjectFilter])" +
-                "{\n  " +
-                "createStudent(createStudentRequest:$createRequest ) " +
-                "{\n    " +
-                "id\n    " +
-                "firstName\n    " + "lastName\n    email\n    " +
-                "street\n    city\n    fullName\n    " +
-                "learningSubjects(subjectNameFilter: $subjectName) " +
-                "{\n      id\n      " +
-                "subjectName\n      " +
-                "marksObtained\n    " +
-                "}\n  " +
-                "}\n}";
+        String queryString = """
+                mutation createStudent($createRequest:StudentRequestInput,$subjectName:[SubjectFilter])\
+                {
+                  \
+                createStudent(createStudentRequest:$createRequest ) \
+                {
+                    \
+                id
+                    \
+                firstName
+                    lastName
+                    email
+                    \
+                street
+                    city
+                    fullName
+                    \
+                learningSubjects(subjectNameFilter: $subjectName) \
+                {
+                      id
+                      \
+                subjectName
+                      \
+                marksObtained
+                    \
+                }
+                  \
+                }
+                }""";
 
         List<SubjectFilter> subjectFilterList = new ArrayList<>();
         subjectFilterList.add(SubjectFilter.All);
