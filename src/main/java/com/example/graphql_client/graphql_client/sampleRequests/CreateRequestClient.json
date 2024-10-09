@@ -1,0 +1,21 @@
+{
+  "id": 6,
+  "firstName": "A",
+  "lastName": "b",
+  "email": "aB@gmail.com",
+  "street": "civil lines",
+  "city": "Bareilly",
+  "fullName": "A b",
+  "learningSubjects": [
+    {
+      "id": 12,
+      "subjectName": "MySQL",
+      "marksObtained": 90.0
+    },
+    {
+      "id": 13,
+      "subjectName": "Java",
+      "marksObtained": 90.0
+    }
+  ]
+}
